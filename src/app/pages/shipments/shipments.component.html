@@ -1,0 +1,112 @@
+<main class="main-body">
+<h3 *ngIf="!isDetailsPage">Shipments</h3>
+<div *ngIf="isDetailsPage">
+<h3>Details</h3>
+<hr>
+</div>
+
+<table class="table" *ngIf="!isDetailsPage">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Shipment number</th>
+      <th scope="col">Airport</th>
+      <th scope="col">Flight number</th>
+      <th scope="col">Flight date</th>
+      <th scope="col">Nr. of bags in shipment</th>
+      <th scope="col"></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i = index; let shipment of shipments">
+      <th scope="row">
+        <span *ngIf="shipment.isFinalized" class="is-finalized">●</span>
+        <span *ngIf="!shipment.isFinalized" class="not-finalized">●</span>
+        {{i + 1}}
+      </th>
+      <td>{{shipment.shipmentNumber}}</td>
+      <td>{{shipment.airport}}</td>
+      <td>{{shipment.flightNumber}}</td>
+      <td>{{formatDate(shipment.flightDate!)}}</td>
+      <td>{{shipment.listOfBags?.length}}</td>
+      <td scope="col">    
+        <button type="button" class="btn btn-secondary btn-sm" (click)="showDetails(shipment.id!)">Show Details</button>
+        <br>
+        <a *ngIf="!shipment.isFinalized" routerLink="/createBags/{{shipment.id}}"><button style="margin-top: 3px;" type="button" class="btn btn-secondary btn-sm">Add Bags To Shipment</button></a>
+        <br>
+        <a *ngIf="!shipment.isFinalized && shipment.listOfBags?.length !== 0" href="/"><button type="button" style="margin-top: 3px;" class="btn btn-secondary btn-sm" (click)="finalizeShipment(shipment.id!)">Finalize shipment</button></a>
+      </td>
+      <td><a href="/" id="clickableTrashCan"><i class="fas fa-trash-alt" (click)="deleteShipment(shipment.id!)"></i></a></td>
+    </tr>
+  </tbody>
+</table>
+<div *ngIf="isDetailsPage">
+  <div *ngIf="bagsWithLetters.length !== 0 || bagWithParcels.length !== 0">
+    <div style="display: flex; justify-content: flex-start;">
+    <div *ngIf="bagsWithLetters.length !== 0" style="border-right: 1px solid #000000; padding-right: 15px; margin-right: 15px;" >
+      <p class="font-weight-bold">Bags With Letters</p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Bag Number</th>
+            <th scope="col">Count of Letters</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i = index; let bag of bagsWithLetters">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{bag.bagNumber}}</td>
+            <td>{{bag.countOfLetters}}</td>
+            <td>{{bag.weight}}</td>
+            <td>{{bag.price}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="bagWithParcels.length !== 0">
+        <p class="font-weight-bold">Bags With Parcels &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a *ngIf="!detailsShipment.isFinalized" routerLink="/createParcels/{{detailsShipment.id}}">Add more parcels</a></p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Bag Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let i = index; let bag of bagWithParcels">
+            <th scope="row">{{i + 1}}</th>
+            <td>{{bag.bagNumber}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="width: 100%; margin-top: 20px;">
+    <p>Total Letters: {{amountOfLetters}}</p>
+    <p>Total Parcels: {{amountOfParcels}}</p>
+    <p>Total Price: {{shipmentTotalPrice}}</p>
+    <p *ngIf="!detailsShipment.isFinalized">Shipment is not yet finalized!</p>
+    <p *ngIf="detailsShipment.isFinalized">Shipment is finalized!</p>
+  </div>
+</div>
+
+<div *ngIf="bagsWithLetters.length === 0 && bagWithParcels.length === 0">
+  <h3>
+    There are no bags in this shipment
+  </h3>
+</div>
+
+  <div style="width: 100%; margin-top: 20px;">
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeDetails()">Close Details</button>
+  </div>
+</div>
+
+<div>
+
+</div>
+</main>

@@ -1,0 +1,13 @@
+.not-finalized {
+    color: green;
+  }
+  
+  .is-finalized {
+    color: red;
+  }
+
+  #clickableTrashCan {
+    color: black;
+    background-color: transparent;
+    text-decoration: none
+}

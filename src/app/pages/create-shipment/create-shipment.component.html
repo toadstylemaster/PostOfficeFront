@@ -1,0 +1,53 @@
+<main class="main-body">
+  <h1>Create new shipment</h1>
+  
+  <form [formGroup]="shipmentForm">
+      <div class="form-group">
+        <label for="shipmentNumber">Shipment number</label>
+        <input type="text" class="form-control" id="shipmentNumber" formControlName="shipmentNumber" placeholder="XXX-XXXXXX" maxlength="10" required>
+        <div *ngIf="checkIfFieldIsTouched(shipmentForm, 'shipmentNumber')" class="text-danger">
+          Shipment number is required.
+        </div>
+        <div *ngIf="checkIfFieldIsValidated(shipmentForm, 'shipmentNumber')" class="text-danger">
+          Shipment number must be in format: XXX-XXXXXX
+        </div>
+        <div *ngIf="checkIfUnique(shipmentForm, 'shipmentNumber')" class="text-danger">
+          This shipment number already exists.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="airport">Airport</label>
+        <select class="form-control" id="airport" formControlName="airport" required>
+          <option>TLL</option>
+          <option>RIX</option>
+          <option>HEL</option>
+        </select>
+        <div *ngIf="checkIfFieldIsTouched(shipmentForm, 'airport')" class="text-danger">
+          Airport is required.
+        </div>
+      </div>
+      <div class="form-group">
+          <label for="flightNumber">Flight number</label>
+          <input type="text" class="form-control" id="flightNumber" formControlName="flightNumber" placeholder="LLDDDD" maxlength="6" required>
+          <div *ngIf="checkIfFieldIsTouched(shipmentForm, 'flightNumber')" class="text-danger">
+            Flight number is required.
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(shipmentForm, 'flightNumber')" class="text-danger">
+            Flight number must be in format LLDDDD, where L-letter, D-digit
+          </div>
+      </div>
+      <div class="form-group">
+          <label for="flightDate">Flight Date</label>
+          <input type="datetime-local" class="form-control" id="flightDate" formControlName="flightDate" placeholder="01.01.2001" required>
+          <div *ngIf="checkIfFieldIsTouched(shipmentForm, 'flightDate')" class="text-danger">
+            Flight date is required.
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(shipmentForm, 'flightDate')" class="text-danger">
+            Flight date must be a future date!
+          </div>
+      </div>
+      <a><button type="button" (click)="postShipment()" class="btn btn-secondary" name="goHomeBtn" [disabled]="!shipmentForm.valid">Add new shipment</button></a>
+      <a><button type="button" (click)="postAndContinueToAddingBags()" style="margin-left: 3px;" name="addingBagsBtn" class="btn btn-secondary" [disabled]="!shipmentForm.valid">Continue to adding bags</button></a>
+    </form>
+    <br>
+  </main>

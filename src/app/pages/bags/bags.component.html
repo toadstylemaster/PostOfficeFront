@@ -1,0 +1,99 @@
+<main class="main-body">
+<h4>Create bags and add them to shipment</h4>
+
+<div>  
+<table class="table">
+  <tbody>
+  <tr>
+    <td>
+        <p class="font-weight-bold">Create Bag With Letters</p>
+        <div>
+        <form [formGroup]="bagWithLettersForm" id="bagWithLettersFormId" (ngSubmit)="createBagWithLetters()">
+          <div class="form-group">
+            <label for="bagNumber">Bag number</label>
+            <input type="text" class="form-control" id="bagNumber" placeholder="AB125V13" formControlName="bagNumber" maxlength="15" required>
+            <div *ngIf="checkIfFieldIsTouched(bagWithLettersForm, 'bagNumber')" class="text-danger">
+              Required!
+            </div>
+            <div *ngIf="checkIfFieldIsValidated(bagWithLettersForm, 'bagNumber')" class="text-danger">
+              Bag number should not contain special symbols with maximum length of 15 characters.
+            </div>
+            <div *ngIf="checkIfUnique(bagWithLettersForm, 'bagNumber')" class="text-danger">
+              This bag number already exists.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="countOfLetters">Count of letters</label>
+            <input type="number" class="form-control" id="countOfLetters" placeholder="0" formControlName="countOfLetters" min="1" required>
+            <div *ngIf="checkIfFieldIsTouched(bagWithLettersForm, 'countOfLetters')" class="text-danger">
+              Required!
+            </div>
+            <div *ngIf="checkIfFieldIsValidated(bagWithLettersForm, 'countOfLetters')" class="text-danger">
+              Bag's count of letters should be greater than 0.
+            </div>
+            <div *ngIf="checkIfNegative(bagWithLettersForm, 'countOfLetters')" class="text-danger">
+              Bag's countOfLetters should be greater than 0.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="weight">Weight</label>
+            <input type="number" class="form-control" id="weight" min="0.001" placeholder="0.001" step="0.001" formControlName="weight" required>
+            <div *ngIf="checkIfFieldIsTouched(bagWithLettersForm, 'weight')" class="text-danger">
+              Required!
+            </div>
+            <div *ngIf="checkIfFieldIsValidated(bagWithLettersForm, 'weight')" class="text-danger">
+              Bag's weight should be a number with up to 3 decimal places.
+            </div>
+            <div *ngIf="checkIfNegative(bagWithLettersForm, 'weight')" class="text-danger">
+              Bag's weight should be greater than 0.
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" class="form-control" id="price" min="0.01" placeholder="0.01" step="0.01" formControlName="price" required>
+            <div *ngIf="checkIfFieldIsTouched(bagWithLettersForm, 'price')" class="text-danger">
+              Required!
+            </div>
+            <div *ngIf="checkIfFieldIsValidated(bagWithLettersForm, 'price')" class="text-danger">
+              Bag's price should be a number with up to 2 decimal places.
+            </div>
+            <div *ngIf="checkIfNegative(bagWithLettersForm, 'price')" class="text-danger">
+              Bag's price should be greater than 0.
+            </div>
+          </div>
+          <button type="submit" class="btn btn-secondary" [disabled]="!bagWithLettersForm.valid">Create Bag With Letters</button>
+        </form>
+      </div>
+    </td>
+    <td>
+      <p class="font-weight-bold">Create Bag With Parcels</p>
+      <form [formGroup]="bagWithParcelsForm" id="bagWithParcelsFormId" (ngSubmit)="createBagWithParcels()">
+        <div class="form-group">
+          <label for="bagNumber">Bag number</label>
+          <input type="text" class="form-control" id="bagNumber" placeholder="AB125V13" formControlName="bagNumber" maxlength="15" required>
+          <div *ngIf="checkIfFieldIsTouched(bagWithParcelsForm, 'bagNumber')" class="text-danger">
+            Required!
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(bagWithParcelsForm, 'bagNumber')" class="text-danger">
+            Bag number should not contain special symbols with maximum length of 15 characters.
+          </div>
+          <div *ngIf="checkIfUnique(bagWithParcelsForm, 'bagNumber')" class="text-danger">
+            This bag number already exists.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-secondary" [disabled]="!bagWithParcelsForm.valid">Create Bag With Parcels</button>
+      </form>
+  </td>
+  </tr>
+</tbody>
+</table>
+
+<br>
+<div *ngIf="addedBags.length !== 0">Bags ready to be added to shipment: {{ getBagNumbers(addedBags) }}</div>
+
+<a href="/"><button style="margin-right: 10px;" class="btn btn-secondary" [disabled]="addedBags.length === 0" (click)="addBagsToShipment(shipmentId, addedBags)"> Add bags to shipment and return</button></a>
+<a href="/createParcels/{{shipmentId}}"><button class="btn btn-secondary" [disabled]="addedBagWithParcels.length === 0" (click)="addBagsToShipment(shipmentId, addedBags)"> Submit and add parcels</button></a>
+
+</div>
+<br>
+</main>

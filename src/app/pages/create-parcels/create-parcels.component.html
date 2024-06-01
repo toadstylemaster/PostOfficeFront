@@ -1,0 +1,80 @@
+<main class="main-body"><h3>Create parcels</h3>
+    <hr>
+<div>
+
+    <label for="bagWithParcels"><b>Select Bag With Parcels</b></label>
+    <select class="form-control" id="bagWithParcels" [disabled]="addedParcels.length !== 0" [(ngModel)]="bagWithParcelsId">
+        <option *ngFor="let bag of bagWithParcelsList" [value]="bag.id">{{bag.bagNumber}}</option>
+    </select>
+    <br>
+    <form [formGroup]="parcelsForm" id="parcelsFormId" (ngSubmit)="createParcels()">
+        <div class="form-group">
+          <label for="parcelNumber">Parcel number</label>
+          <input type="text" class="form-control" id="parcelNumber" placeholder="LLDDDDDDLL" formControlName="parcelNumber" maxlength="10" required>
+          <div *ngIf="checkIfFieldIsTouched(parcelsForm, 'parcelNumber')" class="text-danger">
+            Required!
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(parcelsForm, 'parcelNumber')" class="text-danger">
+            Parcel number should be in format LLDDDDDDLL, where L-letter &  D-digit
+          </div>
+          <div *ngIf="checkIfUnique(parcelsForm, 'parcelNumber')" class="text-danger">
+            This parcel number already exists.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="recipientName">Recipient name</label>
+          <input type="text" class="form-control" id="recipientName" formControlName="recipientName" max="100" required>
+          <div *ngIf="checkIfFieldIsTouched(parcelsForm, 'recipientName')" class="text-danger">
+            Required!
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(parcelsForm, 'recipientName')" class="text-danger">
+            Parcel's recipient name should be less than 100 characters long.
+          </div>
+        </div>
+        <div class="form-group">
+            <label for="destinationCountry">Destination country</label>
+            <input type="text" class="form-control" id="destinationCountry" placeholder="EE" formControlName="destinationCountry" max="2" required>
+            <div *ngIf="checkIfFieldIsTouched(parcelsForm, 'destinationCountry')" class="text-danger">
+              Required!
+            </div>
+            <div *ngIf="checkIfFieldIsValidated(parcelsForm, 'destinationCountry')" class="text-danger">
+              Parcel's destination country should be 2 letter code.
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="weight">Weight</label>
+          <input type="number" class="form-control" id="weight" min="0.001" placeholder="0.001" step="0.001" formControlName="weight" required>
+          <div *ngIf="checkIfFieldIsTouched(parcelsForm, 'weight')" class="text-danger">
+            Required!
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(parcelsForm, 'weight')" class="text-danger">
+            Parcel's weight should be a number with up to 3 decimal places.
+          </div>
+          <div *ngIf="checkIfNegative(parcelsForm, 'weight')" class="text-danger">
+            Parcel's weight should be greater than 0.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="number" class="form-control" id="price" min="0.01" placeholder="0.01" step="0.01" formControlName="price" required>
+          <div *ngIf="checkIfFieldIsTouched(parcelsForm, 'price')" class="text-danger">
+            Required!
+          </div>
+          <div *ngIf="checkIfFieldIsValidated(parcelsForm, 'price')" class="text-danger">
+            Parcel's price should be a number with up to 2 decimal places.
+          </div>
+          <div *ngIf="checkIfNegative(parcelsForm, 'price')" class="text-danger">
+            Parcel's price should be greater than 0.
+          </div>
+        </div>
+        <button type="submit" class="btn btn-secondary" [disabled]="!parcelsForm.valid">Create Parcel</button>
+      </form>
+</div> 
+<br>
+<div *ngIf="addedParcels.length !== 0">Parcels ready to be added to bag: {{ getParcelNumbers(addedParcels) }}</div>
+<div>
+    <a href="/"><button class="btn btn-secondary" style="margin-right: 10px;" [disabled]="addedParcels.length === 0" (click)="addParcelsToBag(bagWithParcelsId, addedParcels)">Add parcels to bag and return</button></a>
+    <a href="/createParcels/{{shipmentId}}"><button class="btn btn-secondary" [disabled]="addedParcels.length === 0 || bagWithParcelsList.length === 1" (click)="addParcelsToBag(bagWithParcelsId, addedParcels)">Submit & add parcels to another bag</button></a>
+</div>
+<br>
+</main>
