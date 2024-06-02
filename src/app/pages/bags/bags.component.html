@@ -50,7 +50,7 @@
           </div>
           <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" min="0.01" placeholder="0.01" step="0.01" formControlName="price" required>
+            <input type="number" class="form-control" id="price" min="0.00" placeholder="0.01" step="0.01" formControlName="price" required>
             <div *ngIf="checkIfFieldIsTouched(bagWithLettersForm, 'price')" class="text-danger">
               Required!
             </div>
