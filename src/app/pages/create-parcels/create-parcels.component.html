@@ -73,7 +73,7 @@
 <br>
 <div *ngIf="addedParcels.length !== 0">Parcels ready to be added to bag: {{ getParcelNumbers(addedParcels) }}</div>
 <div>
-    <a href="/"><button class="btn btn-secondary" style="margin-right: 10px;" [disabled]="addedParcels.length === 0" (click)="addParcelsToBag(bagWithParcelsId, addedParcels)">Add parcels to bag and return</button></a>
+    <a href="/"><button class="btn btn-secondary move-button-right" [disabled]="addedParcels.length === 0" (click)="addParcelsToBag(bagWithParcelsId, addedParcels)">Add parcels to bag and return</button></a>
     <a href="/createParcels/{{shipmentId}}"><button class="btn btn-secondary" [disabled]="addedParcels.length === 0 || bagWithParcelsList.length === 1" (click)="addParcelsToBag(bagWithParcelsId, addedParcels)">Submit & add parcels to another bag</button></a>
 </div>
 <br>

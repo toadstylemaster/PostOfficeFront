@@ -47,7 +47,7 @@
           </div>
       </div>
       <a><button type="button" (click)="postShipment()" class="btn btn-secondary" name="goHomeBtn" [disabled]="!shipmentForm.valid">Add new shipment</button></a>
-      <a><button type="button" (click)="postAndContinueToAddingBags()" style="margin-left: 3px;" name="addingBagsBtn" class="btn btn-secondary" [disabled]="!shipmentForm.valid">Continue to adding bags</button></a>
+      <a><button type="button" (click)="postAndContinueToAddingBags()" name="addingBagsBtn" class="btn btn-secondary move-button-left" [disabled]="!shipmentForm.valid">Continue to adding bags</button></a>
     </form>
     <br>
   </main>
